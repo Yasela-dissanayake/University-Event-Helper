@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'faculty.dart';
 import 'faculty_data.dart';
 import 'location_service.dart';
+import 'event_scraper.dart';
 import 'dart:math';
 
 double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
@@ -20,16 +21,21 @@ double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
   return distance;
 }
 
-double lat1 = 6.998938727012407;
-double lon1 = 81.09564610780035;
-double lat2 = 6.999041888112743;
-double lon2 = 81.09534570038534;
-
-double distance = calculateDistance(lat1, lon1, lat2, lon2);
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await fetchAndUpdateEvents();
   runApp(MyApp());
+}
+
+Future<void> fetchAndUpdateEvents() async {
+  for (var faculty in faculties) {
+    try {
+      var events = await fetchEvents(faculty.url, faculty.selectors);
+      faculty.events.addAll(events);
+    } catch (e) {
+      print('Failed to fetch events for ${faculty.name}: $e');
+    }
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -144,7 +150,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             )),
-        Text('Distance to ${_nearbyFaculty!.name}: $distance meters'),
       ],
     );
   }
