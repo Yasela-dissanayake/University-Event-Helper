@@ -11,16 +11,20 @@ Future<List<FacultyEvent>> fetchEvents(
     var eventElements = document.querySelectorAll(selectors['event']!);
     List<FacultyEvent> events = [];
 
+    print("3");
     for (var element in eventElements) {
-      var title =
-          element.querySelector(selectors['title']!)?.text ?? 'No title';
+      print("4");
+      print("element------ ${element.outerHtml}");
+      var titleElement = element.querySelector('a');
+      print("titleElement------ ${titleElement?.outerHtml}");
+      var title = titleElement?.text ?? 'No title';
+      print("title------ ${title}");
       var description =
           element.querySelector(selectors['description']!)?.text ??
               'No description';
       var dateTimeString =
           element.querySelector(selectors['date']!)?.text ?? '';
-      var dateTime = DateTime.parse(
-          dateTimeString); // Adjust the parsing based on the actual date format
+      var dateTime = DateTime.parse(dateTimeString);
 
       events.add(FacultyEvent(
         title: title,

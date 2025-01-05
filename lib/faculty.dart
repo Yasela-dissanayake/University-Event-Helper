@@ -4,7 +4,7 @@ class Faculty {
   final double longitude;
   final List<FacultyEvent> events;
   final String url;
-  final Map<String, String> selectors; // Add this line
+  final Map<String, String> selectors;
 
   Faculty({
     required this.name,
@@ -12,7 +12,7 @@ class Faculty {
     required this.longitude,
     required this.events,
     required this.url,
-    required this.selectors, // Add this line
+    required this.selectors,
   });
 }
 

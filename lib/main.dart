@@ -23,19 +23,7 @@ double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await fetchAndUpdateEvents();
   runApp(MyApp());
-}
-
-Future<void> fetchAndUpdateEvents() async {
-  for (var faculty in faculties) {
-    try {
-      var events = await fetchEvents(faculty.url, faculty.selectors);
-      faculty.events.addAll(events);
-    } catch (e) {
-      print('Failed to fetch events for ${faculty.name}: $e');
-    }
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -92,6 +80,7 @@ class _HomePageState extends State<HomePage> {
 
       if (nearbyFaculty != null && nearbyFaculty != _nearbyFaculty) {
         setState(() => _nearbyFaculty = nearbyFaculty);
+        await fetchAndUpdateEvents(nearbyFaculty);
       } else if (nearbyFaculty == null) {
         setState(() => _nearbyFaculty = null);
       }
@@ -99,6 +88,18 @@ class _HomePageState extends State<HomePage> {
       print('Error checking location: $e');
     } finally {
       setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> fetchAndUpdateEvents(Faculty faculty) async {
+    try {
+      var events = await fetchEvents(faculty.url, faculty.selectors);
+      print('Fetched ${events.length} events for ${faculty.name}');
+      setState(() {
+        faculty.events.addAll(events);
+      });
+    } catch (e) {
+      print('Failed to fetch events for ${faculty.name}: $e');
     }
   }
 
