@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "699299586814",
+    "project_id": "university-event-helper-22586",
+    "storage_bucket": "university-event-helper-22586.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699299586814:android:f48f09f5a980c43216fbaf",
+        "android_client_info": {
+          "package_name": "com.example.event_helper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY8qY9W2WrweoKnqznLVOq2JHvfeJmPJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
