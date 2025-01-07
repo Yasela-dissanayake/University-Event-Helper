@@ -1,12 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:event_helper/models/faculty.dart';
 
-class FirestoreService {
+class FirebaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Stream<List<Faculty>> getFaculties() {
-    return _firestore.collection('faculties').snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Faculty.fromFirestore(doc)).toList();
-    });
+  Stream<QuerySnapshot> getAllFaculties() {
+    return _firestore.collection('faculties').snapshots();
+  }
+
+  Stream<QuerySnapshot> getFacultyEvents(String facultyId) {
+    return _firestore
+        .collection('faculties')
+        .doc(facultyId)
+        .collection('events')
+        .limit(1) // Get only one event
+        .snapshots();
   }
 }
