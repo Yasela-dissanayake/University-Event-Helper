@@ -1,18 +1,45 @@
 import 'package:event_helper/src/models/faculty.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:wifi_scan/wifi_scan.dart';
 
 import '../models/faculty_event.dart';
 
 class ServiceProvider extends ChangeNotifier {
-  final double _detectionRadiusMeters = 50.0;
-  // final String _wifiSsid = 'uop-wifi';
+  final double _detectionRadiusMeters = 500000000.0;
+  final String _wifiSsid = 'UoP-WiFi';
 
   late Position _currentPosition;
   late List<Faculty> _allFacultyData;
   late List<Faculty> _filteredFacultyData = [];
 
   List<Faculty> get filteredFacultyData => _filteredFacultyData;
+
+  Future<void> startScanEvents() async {
+    bool scanWithLocation = await _wifiScan();
+
+    if (scanWithLocation) {
+      await _update();
+    }
+  }
+
+  Future<bool> _wifiScan() async {
+    bool inUop = false;
+    var canStartScan = await WiFiScan.instance.canStartScan();
+    if (canStartScan == CanStartScan.yes) {
+      await WiFiScan.instance.startScan();
+      List<WiFiAccessPoint> wifiList =
+          await WiFiScan.instance.getScannedResults();
+      for (var wifi in wifiList) {
+        if (wifi.ssid == _wifiSsid) {
+          inUop = true;
+          break;
+        }
+      }
+    }
+
+    return inUop;
+  }
 
   Future<void> _getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -99,7 +126,7 @@ class ServiceProvider extends ChangeNotifier {
     ];
   }
 
-  Future<void> update() async {
+  Future<void> _update() async {
     await _getCurrentLocation();
     _getFacultyData();
     _updateNearbyFaculty();

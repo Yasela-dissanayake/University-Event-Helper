@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:event_helper/src/provider/service_provider.dart';
 import 'package:event_helper/src/widgets/faculty_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,11 +13,20 @@ class FacultyEventViewer extends StatefulWidget {
 }
 
 class _FacultyEventViewerState extends State<FacultyEventViewer> {
+  Timer? scanTimer;
+
   @override
   void initState() {
     super.initState();
+    startTimer();
+  }
+
+  void startTimer() async {
     var service = context.read<ServiceProvider>();
-    service.update();
+    await service.startScanEvents();
+    Timer.periodic(const Duration(seconds: 30), (timer) async {
+      await service.startScanEvents();
+    });
   }
 
   @override
