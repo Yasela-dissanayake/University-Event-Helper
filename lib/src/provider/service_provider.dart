@@ -1,14 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_helper/src/models/faculty.dart';
+import 'package:event_helper/src/models/faculty_event.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wifi_scan/wifi_scan.dart';
 
-import '../models/faculty_event.dart';
-
 class ServiceProvider extends ChangeNotifier {
   final double _detectionRadiusMeters = 50.0;
-  // final String _wifiSsid = 'UoP-WiFi';
-  final String _wifiSsid = 'Katussa';
+  final String _wifiSsid = 'UoP-WiFi';
+  final FirebaseFirestore _firebaseService = FirebaseFirestore.instance;
 
   late Position _currentPosition;
   late List<Faculty> _allFacultyData;
@@ -78,58 +78,59 @@ class ServiceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _getFacultyData() {
-    _allFacultyData = [
-      Faculty(
-        name: 'Faculty of Medicine',
-        latitude: 7.257019148505175,
-        longitude: 80.60209726935268,
-        events: [
-          FacultyEvent(
-            title: 'Med Symposium',
-            description: 'Research presentation by faculty members',
-            dateTime: DateTime(2024, 12, 18, 10, 0),
-          ),
-        ],
-      ),
+  Future<void> _getFacultyData() async {
+    List<Faculty> facultiesList = [];
+    try {
+      QuerySnapshot<Map<String, dynamic>> facultiesSnapshot =
+          await _firebaseService.collection("faculties").get();
 
-      Faculty(
-        name: 'Faculty of Science',
-        latitude: 6.998938727012407, // Replace with actual coordinates
-        longitude: 81.09564610780035,
-        events: [
-          FacultyEvent(
-            title: 'Science Symposium',
-            description: 'Research presentation by faculty members',
-            dateTime: DateTime(2024, 12, 18, 10, 0),
-          ),
-        ],
-      ),
+      for (var facultyDoc in facultiesSnapshot.docs) {
+        // Extract faculty details
+        String name = facultyDoc.get("name");
+        double? latitude = facultyDoc.data().containsKey("latitude")
+            ? facultyDoc.get("latitude")
+            : null;
+        double? longitude = facultyDoc.data().containsKey("longitude")
+            ? facultyDoc.get("longitude")
+            : null;
 
-      Faculty(
-        name: 'Faculty of Engineering',
-        latitude: 6.999041888112743, // Replace with actual coordinates
-        longitude: 81.09534570038534,
-        events: [
-          FacultyEvent(
-            title: 'Engineering Exhibition',
-            description: 'Annual project showcase by final year students',
-            dateTime: DateTime(2024, 12, 15, 9, 0),
+        // Fetch events for the current faculty
+        QuerySnapshot<Map<String, dynamic>> eventsSnapshot =
+            await _firebaseService
+                .collection("faculties")
+                .doc(facultyDoc.id)
+                .collection("events")
+                .get();
+
+        // Map events to FacultyEvent objects
+        List<FacultyEvent> events = eventsSnapshot.docs.map((eventDoc) {
+          return FacultyEvent(
+            title: eventDoc.get("title"),
+            sourceUrl: eventDoc.get("source_url"),
+            dateTime: eventDoc.get("date"),
+          );
+        }).toList();
+
+        // Create a Faculty object
+        facultiesList.add(
+          Faculty(
+            name: name,
+            latitude: latitude,
+            longitude: longitude,
+            events: events,
           ),
-          FacultyEvent(
-            title: 'Tech Workshop',
-            description: 'Workshop on emerging technologies',
-            dateTime: DateTime(2024, 12, 20, 14, 0),
-          ),
-        ],
-      ),
-      // Add more faculties as needed
-    ];
+        );
+      }
+    } catch (e) {
+      //
+    }
+    _allFacultyData = facultiesList;
+    notifyListeners();
   }
 
   Future<void> _update() async {
     await _getCurrentLocation();
-    _getFacultyData();
+    await _getFacultyData();
     _updateNearbyFaculty();
     notifyListeners();
   }

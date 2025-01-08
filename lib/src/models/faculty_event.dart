@@ -1,11 +1,11 @@
 class FacultyEvent {
   final String title;
-  final String description;
-  final DateTime dateTime;
+  final String sourceUrl;
+  final String dateTime;
 
   FacultyEvent({
     required this.title,
-    required this.description,
+    required this.sourceUrl,
     required this.dateTime,
   });
 }
