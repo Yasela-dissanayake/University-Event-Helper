@@ -6,8 +6,9 @@ import 'package:wifi_scan/wifi_scan.dart';
 import '../models/faculty_event.dart';
 
 class ServiceProvider extends ChangeNotifier {
-  final double _detectionRadiusMeters = 500000000.0;
-  final String _wifiSsid = 'UoP-WiFi';
+  final double _detectionRadiusMeters = 50.0;
+  // final String _wifiSsid = 'UoP-WiFi';
+  final String _wifiSsid = 'Katussa';
 
   late Position _currentPosition;
   late List<Faculty> _allFacultyData;
@@ -81,8 +82,8 @@ class ServiceProvider extends ChangeNotifier {
     _allFacultyData = [
       Faculty(
         name: 'Faculty of Medicine',
-        latitude: 6.999719955566542, // Replace with actual coordinates
-        longitude: 81.09608239052262,
+        latitude: 7.257019148505175,
+        longitude: 80.60209726935268,
         events: [
           FacultyEvent(
             title: 'Med Symposium',
