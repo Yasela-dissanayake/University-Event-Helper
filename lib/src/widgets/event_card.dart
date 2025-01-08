@@ -1,3 +1,4 @@
+import 'package:event_helper/models/faculty_event.dart';
 import 'package:event_helper/src/models/faculty_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -31,21 +32,21 @@ class EventCard extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              Text(
-                facultyEvent.description,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
-              Text(
-                DateFormat('d MMMM, EEEE yyyy').format(facultyEvent.dateTime),
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              )
+              // Text(
+              //   facultyEvent.title,
+              //   overflow: TextOverflow.ellipsis,
+              //   style: const TextStyle(
+              //     fontWeight: FontWeight.w400,
+              //     fontSize: 14,
+              //   ),
+              // ),
+              // Text(
+              //   DateFormat('d MMMM, EEEE yyyy').format(facultyEvent.timestamp),
+              //   style: const TextStyle(
+              //     fontWeight: FontWeight.w400,
+              //     fontSize: 14,
+              //   ),
+              // )
             ],
           ),
         ),

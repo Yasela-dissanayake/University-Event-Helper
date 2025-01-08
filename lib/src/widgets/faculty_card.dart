@@ -1,3 +1,4 @@
+import 'package:event_helper/models/faculty.dart';
 import 'package:event_helper/src/models/faculty.dart';
 import 'package:event_helper/src/widgets/event_card.dart';
 import 'package:flutter/cupertino.dart';

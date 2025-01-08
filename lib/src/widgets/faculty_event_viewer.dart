@@ -38,46 +38,13 @@ class _FacultyEventViewerState extends State<FacultyEventViewer> {
   @override
   Widget build(BuildContext context) {
     var serviceProvider = context.watch<ServiceProvider>();
+    print('Filtered Faculty Data: ${serviceProvider.filteredFacultyData}');
 
-    // return Column(
-    //   children:
-    //       serviceProvider.filteredFacultyData.asMap().entries.map((entry) {
-    //     return FacultyCard(faculty: entry.value);
-    //   }).toList(),
-    // );
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Faculty Events'),
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _firebaseService.getAllFaculties(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Center(child: Text('Something went wrong'));
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              final faculty = snapshot.data!.docs[index];
-              return Card(
-                margin: const EdgeInsets.all(8.0),
-                child: ExpansionTile(
-                  title: Text(faculty['name']),
-                  // subtitle: Text(faculty['department']),
-                  children: [
-                    FacultyEvent(facultyId: faculty.id),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      ),
+    return Column(
+      children:
+          serviceProvider.filteredFacultyData.asMap().entries.map((entry) {
+        return FacultyCard(faculty: entry.value);
+      }).toList(),
     );
   }
 }

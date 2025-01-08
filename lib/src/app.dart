@@ -16,7 +16,7 @@ class _AppState extends State<App> {
       appBar: AppBar(
         title: const Text("UOP Events"),
       ),
-      body: HomePage(),
+      body: const FacultyEventViewer(),
     );
   }
 }
