@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                 margin: const EdgeInsets.all(8.0),
                 child: ExpansionTile(
                   title: Text(faculty['name']),
-                  subtitle: Text(faculty['department']),
+                  // subtitle: Text(faculty['department']),
                   children: [
                     FacultyEvent(facultyId: faculty.id),
                   ],
@@ -78,10 +78,10 @@ class FacultyEvent extends StatelessWidget {
                 event['title'],
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(event['description']),
-              Text('Venue: ${event['venue']}'),
-              Text(
-                  'Date: ${(event['date'] as Timestamp).toDate().toString().split('.')[0]}'),
+              // Text(event['description']),
+              // Text('Venue: ${event['venue']}'),
+              // Text(
+              //     'Date: ${(event['date'] as Timestamp).toDate().toString().split('.')[0]}'),
             ],
           ),
         );

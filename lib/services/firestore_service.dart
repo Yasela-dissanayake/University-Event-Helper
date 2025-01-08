@@ -12,7 +12,6 @@ class FirebaseService {
         .collection('faculties')
         .doc(facultyId)
         .collection('events')
-        .limit(1) // Get only one event
         .snapshots();
   }
 }

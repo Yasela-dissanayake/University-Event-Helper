@@ -1,3 +1,4 @@
+import 'package:event_helper/screens/home_page.dart';
 import 'package:event_helper/src/widgets/faculty_event_viewer.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class _AppState extends State<App> {
       appBar: AppBar(
         title: const Text("UOP Events"),
       ),
-      body: const FacultyEventViewer(),
+      body: HomePage(),
     );
   }
 }
