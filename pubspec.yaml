@@ -33,7 +33,6 @@ dependencies:
 
   firebase_core: ^2.32.0 # Updated version
   cloud_firestore: ^4.17.5 # Updated version
-  intl: ^0.19.0
   # firebase_core: ^3.9.0
   # cloud_firestore: ^4.15.5
   # intl: ^0.19.0
