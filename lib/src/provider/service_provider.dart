@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:wifi_scan/wifi_scan.dart';
 
 class ServiceProvider extends ChangeNotifier {
-  final double _detectionRadiusMeters = 50.0;
+  final double _detectionRadiusMeters = 500.0;
   final String _wifiSsid = 'UoP-WiFi';
   final FirebaseFirestore _firebaseService = FirebaseFirestore.instance;
 

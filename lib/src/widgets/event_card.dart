@@ -30,14 +30,14 @@ class EventCard extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              Text(
-                facultyEvent.sourceUrl,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
+              // Text(
+              //   facultyEvent.sourceUrl,
+              //   overflow: TextOverflow.ellipsis,
+              //   style: const TextStyle(
+              //     fontWeight: FontWeight.w400,
+              //     fontSize: 14,
+              //   ),
+              // ),
               Text(
                 facultyEvent.dateTime,
                 style: const TextStyle(

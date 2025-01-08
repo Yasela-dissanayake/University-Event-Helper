@@ -13,7 +13,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ServiceProvider()),
       ],
-      child: const MaterialApp(home: App()),
+      child: const MaterialApp(home: App(), debugShowCheckedModeBanner: false),
     ),
   );
 }
